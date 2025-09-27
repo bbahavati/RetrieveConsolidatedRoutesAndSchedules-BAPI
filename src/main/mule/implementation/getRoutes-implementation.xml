@@ -19,16 +19,17 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
+var LocationMapping = (readUrl("classpath://json/LocationCodeMapping.json","application/json"))
 ---
 payload map(value,index)->{
 	 "companyCode": vars.transportCompany,
     "originLocation": {
       "locationCode": value.departureLocationCode,
-      "locationDesc": "Beauna Vista Singapore"
+      "locationDesc": (LocationMapping filter($.locationCode == value.departureLocationCode))[0].locationDesc
     },
     "destinationLocation": {
       "locationCode": value.arrivalLocationCode,
-      "locationDesc": "Klang Malaysia"
+      "locationDesc": (LocationMapping filter($.locationCode == value.arrivalLocationCode))[0].locationDesc
     }
 }]]></ee:set-payload>
 					</ee:message>
@@ -49,16 +50,17 @@ payload map(value,index)->{
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
+var LocationMapping = (readUrl("classpath://json/LocationCodeMapping.json","application/json"))
 ---
 payload map(value,index)->{
 	 "companyCode": vars.transportCompany,
     "originLocation": {
       "locationCode": value.departureLocationCode,
-      "locationDesc": "Beauna Vista Singapore"
+      "locationDesc": (LocationMapping filter($.locationCode == value.departureLocationCode))[0].locationDesc
     },
     "destinationLocation": {
       "locationCode": value.arrivalLocationCode,
-      "locationDesc": "Klang Malaysia"
+      "locationDesc": (LocationMapping filter($.locationCode == value.arrivalLocationCode))[0].locationDesc
     }
 }]]></ee:set-payload>
 					</ee:message>
