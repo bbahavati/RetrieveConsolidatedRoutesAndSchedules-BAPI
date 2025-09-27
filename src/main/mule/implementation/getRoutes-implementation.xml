@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"transactionId" : vars.transactionId
 }]]]></http:headers>
 				</http:request>
-					<ee:transform doc:name="Transform Message" doc:id="6af0aae1-4025-4e61-9a5a-0d20ffbf5f95">
+			<ee:transform doc:name="Transform Message" doc:id="6af0aae1-4025-4e61-9a5a-0d20ffbf5f95">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -68,6 +68,7 @@ payload map(value,index)->{
 				</ee:cache>
 	</sub-flow>
 	<sub-flow name="getRoutes-implementationSub_Flow" doc:id="8b78d6b5-5a88-4b29-a263-669617c2c71e" >
+		<set-variable value="Routes" doc:name="Set Variable" doc:id="ed33ca77-178f-4d03-8be8-a14b28fc377e" variableName="resource"/>
 		<choice doc:name="Choice" doc:id="ece7f5c8-067a-4aa8-a696-f10dfece21ce" >
 			<when expression='#[vars.transportCompany == "FastGo"]'>
 				<flow-ref doc:name="Flow Reference" doc:id="1f552eec-750b-4a36-b23b-28758fe411f7" name="getRoutes-CallFastGo-subFlow" />
@@ -86,7 +87,6 @@ payload map(value,index)->{
 						<flow-ref doc:name="Flow Reference" doc:id="e0712388-0a0e-49d6-8f4f-5199badac008" name="getRoutes-CallTravelOnTip-subFlow"/>
 					</route>
 				</scatter-gather>
-				<logger level="INFO" doc:name="Logger" doc:id="8a52fda6-5e10-4061-905c-4dcf072d4e8d" message="#[(payload[0].payload default []) ++ (payload[0].payload default [])]"/>
 				<set-payload value="#[%dw 2.0&#10;output application/json&#10;---&#10;(payload[0].payload default []) ++ (payload[0].payload default [])]" doc:name="Set Payload" doc:id="c734b144-527f-4b4e-9137-766c27faeb7d" />
 			</otherwise>
 		</choice>
